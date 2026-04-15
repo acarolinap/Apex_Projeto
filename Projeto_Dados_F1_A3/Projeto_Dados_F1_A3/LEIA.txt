@@ -1,0 +1,18 @@
+
+Escolhi essas 4 para responder nossas perguntas de pesquisa:
+
+Hungria: Pista muito quente para ver como o pneu sofre com o calor (Pergunta 3).
+
+Silverstone: Clima doido e asfalto que gasta muito pneu (Pergunta 1).
+
+Jeddah: Pista de rua rápida para comparar quem freia mais tarde (Pergunta 2).
+
+Mônaco: Pista lenta e apertada para ver o arranque de 0 a 100 na largada (Pergunta 4).
+
+Avisos importantes (leia antes de mexer):
+
+Erro no ID: No arquivo circuits.csv do Kaggle, o ID 23 não existe. Ele pula do 22 pro 80. Não é erro de download, a base é assim mesmo.
+
+Frequência (Hz): A telemetria não é perfeita. Ela registra entre 3.7Hz e 10Hz, então é mais uma estimativa do que um valor cravado.
+
+Arquivos Parquet: Os arquivos de telemetria salvei em .parquet porque são muito grandes para CSV.

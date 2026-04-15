@@ -1,0 +1,14 @@
+# Cache da biblioteca FastF1 (muito pesado)
+cache_fastf1/
+
+# Pastas do Python
+__pycache__/
+*.pyc
+
+# Ambientes virtuais
+venv/
+.env
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
