@@ -70,4 +70,4 @@ def extrair_e_limpar_sessao(ano, local):
 for ano, local in corridas:
     extrair_e_limpar_sessao(ano, local)
 
-print("\n--- 🏁 PIPELINE CONCLUÍDO: Dados prontos para o Tableau ---")
+print("\n--- PIPELINE CONCLUÍDO: Dados prontos para o Tableau ---")
