@@ -14,10 +14,10 @@ pasta_limpa = 'apex_analytics_data_cleaned'
 os.makedirs(pasta_limpa, exist_ok=True)
 
 corridas = [
-    (2024, 'Hungary'),      # Calor extremo (Pergunta 3)
-    (2024, 'Silverstone'),   # Clima instável (Pergunta 1 e 3)
-    (2024, 'Saudi Arabia'),  # Alta velocidade (Pergunta 2)
-    (2024, 'Monaco')         # Aceleração 0-100 (Pergunta 4)
+    (2024, 'Hungary'),      # Calor extremo
+    (2024, 'Silverstone'),   # Clima instável
+    (2024, 'Saudi Arabia'),  # Alta velocidade
+    (2024, 'Monaco')         # Aceleração 0-100
 ]
 
 def limpar_dados(df):
@@ -40,16 +40,18 @@ def extrair_e_limpar_sessao(ano, local):
         # --- TRATAMENTO DE VOLTAS (LAPS) ---
         laps = session.laps
         laps_cleaned = limpar_dados(pd.DataFrame(laps))
-        # Salva o CSV limpo
-        laps_cleaned.to_csv(f'{pasta_limpa}/{ano}_{local}_laps_cleaned.csv', index=False)
+        # Para evitar problemas no Tableau com listas/objetos, convertemos para string
+        for col in laps_cleaned.columns:
+            if laps_cleaned[col].dtype == 'object':
+                laps_cleaned[col] = laps_cleaned[col].astype(str)
+        laps_cleaned.to_csv(f'{pasta_limpa}/{ano}_{local}_laps_cleaned.csv', index=False, encoding='utf-8-sig')
 
         # --- TRATAMENTO DE CLIMA (WEATHER) ---
         weather = session.weather_data
         weather_cleaned = limpar_dados(pd.DataFrame(weather))
-        weather_cleaned.to_csv(f'{pasta_limpa}/{ano}_{local}_weather_cleaned.csv', index=False)
+        weather_cleaned.to_csv(f'{pasta_limpa}/{ano}_{local}_weather_cleaned.csv', index=False, encoding='utf-8-sig')
 
         # --- TRATAMENTO DE TELEMETRIA (FASTEST LAP) ---
-        # Pegamos a volta mais rápida para análise de performance pura (Pergunta 2)
         fastest = laps.pick_fastest()
         telemetry = fastest.get_telemetry()
         telemetry_cleaned = limpar_dados(pd.DataFrame(telemetry))
@@ -58,10 +60,14 @@ def extrair_e_limpar_sessao(ano, local):
         if 'Speed' in telemetry_cleaned.columns:
             telemetry_cleaned = telemetry_cleaned[telemetry_cleaned['Speed'] <= 375]
 
-        # Salva em Parquet (Alta Performance)
+        # 1. Salva em Parquet (Seu backup de alta performance)
         telemetry_cleaned.to_parquet(f'{pasta_limpa}/{ano}_{local}_telemetry_cleaned.parquet')
         
-        print(f"✅ Sucesso: {local} finalizado e salvo em /{pasta_limpa}")
+        # 2. CONVERSÃO PARA TABLEAU (CSV)
+        # Salvamos uma cópia em CSV para o Tableau Public conseguir ler
+        telemetry_cleaned.to_csv(f'{pasta_limpa}/{ano}_{local}_telemetry_tableau.csv', index=False, encoding='utf-8-sig')
+        
+        print(f"✅ Sucesso: {local} finalizado. Gerados Parquet e CSV para Tableau.")
 
     except Exception as e:
         print(f"❌ Erro em {local}: {e}")
@@ -70,4 +76,4 @@ def extrair_e_limpar_sessao(ano, local):
 for ano, local in corridas:
     extrair_e_limpar_sessao(ano, local)
 
-print("\n--- PIPELINE CONCLUÍDO: Dados prontos para o Tableau ---")
+print("\n--- PIPELINE CONCLUÍDO: Agora use os arquivos .csv na pasta /" + pasta_limpa + " no Tableau ---")

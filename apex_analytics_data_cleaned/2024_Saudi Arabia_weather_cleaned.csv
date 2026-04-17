@@ -1,4 +1,4 @@
-Time,AirTemp,Humidity,Pressure,Rainfall,TrackTemp,WindDirection,WindSpeed
+﻿Time,AirTemp,Humidity,Pressure,Rainfall,TrackTemp,WindDirection,WindSpeed
 0 days 00:00:08.340000,25.5,67.0,1012.0,False,33.6,342,2.6
 0 days 00:01:08.337000,25.5,67.0,1012.0,False,33.6,20,1.9
 0 days 00:02:08.335000,25.5,67.0,1012.0,False,33.4,21,2.4
