@@ -32,7 +32,7 @@ def limpar_dados(df):
     return df
 
 def extrair_e_limpar_sessao(ano, local):
-    print(f"\n🚀 Processando: {local} {ano}...")
+    print(f"\n Processando: {local} {ano}...")
     try:
         session = fastf1.get_session(ano, local, 'R')
         session.load()
@@ -60,17 +60,17 @@ def extrair_e_limpar_sessao(ano, local):
         if 'Speed' in telemetry_cleaned.columns:
             telemetry_cleaned = telemetry_cleaned[telemetry_cleaned['Speed'] <= 375]
 
-        # 1. Salva em Parquet (Seu backup de alta performance)
+        # 1. Salva em Parquet 
         telemetry_cleaned.to_parquet(f'{pasta_limpa}/{ano}_{local}_telemetry_cleaned.parquet')
         
         # 2. CONVERSÃO PARA TABLEAU (CSV)
         # Salvamos uma cópia em CSV para o Tableau Public conseguir ler
         telemetry_cleaned.to_csv(f'{pasta_limpa}/{ano}_{local}_telemetry_tableau.csv', index=False, encoding='utf-8-sig')
         
-        print(f"✅ Sucesso: {local} finalizado. Gerados Parquet e CSV para Tableau.")
+        print(f"Sucesso: {local} finalizado. Gerados Parquet e CSV para Tableau.")
 
     except Exception as e:
-        print(f"❌ Erro em {local}: {e}")
+        print(f"Erro em {local}: {e}")
 
 # Execução do Pipeline
 for ano, local in corridas:
